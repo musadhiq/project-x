@@ -22,8 +22,25 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        // Optional: Implement this method to add new students
+        // Validate the incoming request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15', // Adjust max length as needed
+        ]);
+
+        // Create a new student
+        $student = Student::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+        ]);
+
+        // Return a JSON response with the created student
+        return response()->json([
+            'message' => 'Student added successfully',
+            'student' => $student,
+        ], 201);
     }
+
 
     /**
      * Display the specified resource (optional).
